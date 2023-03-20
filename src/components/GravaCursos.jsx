@@ -31,9 +31,12 @@ const GravaCursos = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/cursos", {
-        dadosCurso: inputs,
-      });
+      const res = await axios.post(
+        "https://api-curso-project.vercel.app/cursos",
+        {
+          dadosCurso: inputs,
+        }
+      );
       console.log(res.data);
       console.log(inputs);
     } catch (e) {
