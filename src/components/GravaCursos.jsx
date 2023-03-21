@@ -48,7 +48,7 @@ const GravaCursos = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <Box display={"flex"} justifyContent="center">
         <Box
-          width={600}
+          maxWidth={600}
           component={"form"}
           display="flex"
           flexDirection={"column"}

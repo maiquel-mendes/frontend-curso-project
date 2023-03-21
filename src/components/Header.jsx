@@ -17,7 +17,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { Outlet } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Drawer } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Container } from "@mui/material";
@@ -78,6 +78,12 @@ export default function Header({
 
   const navigate = useNavigate();
 
+  // const handleDrawer = () => {
+  //   return (
+
+  //   );
+  // };
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -136,7 +142,7 @@ export default function Header({
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={8} color="error">
+          <Badge badgeContent={5} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -153,6 +159,17 @@ export default function Header({
           </Badge>
         </IconButton>
         <p>Alertas</p>
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          setMode((mode) => (mode === "light" ? "dark" : "light"));
+          console.log(mode);
+        }}
+      >
+        <IconButton size="large" color="inherit">
+          {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+        <p>Tema</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -186,7 +203,8 @@ export default function Header({
           variant="h6"
           noWrap
           component="div"
-          sx={{ display: { xs: "none", sm: "block" } }}
+          onClick={() => navigate("/")}
+          sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
         >
           SISTEMA
         </Typography>
@@ -216,7 +234,7 @@ export default function Header({
             aria-label="show 4 new mails"
             color="inherit"
           >
-            <Badge badgeContent={5} color="error">
+            <Badge badgeContent={6} color="error">
               <MailIcon />
             </Badge>
           </IconButton>
@@ -256,19 +274,6 @@ export default function Header({
         {renderMobileMenu}
         {renderMenu}
       </Toolbar>
-      <Box display={"flex"} justifyContent="space-evenly" p={5}>
-        <Button
-          type="button"
-          variant="contained"
-          onClick={() => navigate("lista-curso")}
-        >
-          Cursos
-        </Button>
-        <Button variant="contained" onClick={() => navigate("cria-curso")}>
-          Criar Curso
-        </Button>
-      </Box>
-      <Outlet />
     </React.Fragment>
   );
 }

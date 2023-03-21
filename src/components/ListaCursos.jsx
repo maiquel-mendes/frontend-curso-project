@@ -3,7 +3,15 @@ import axios from "axios";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { useState } from "react";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -39,6 +47,36 @@ const ListaCursos = () => {
   //     pega();
   //   }, []);
 
+  function BasicCard({ row }) {
+    return (
+      <>
+        {/* {result.map((row) => ( */}
+        <Card key={row.title} sx={{ minWidth: 300, maxWidth: 300 }}>
+          <CardContent>
+            <Typography variant="h5" component="div">
+              {row.title}
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {row.body}
+            </Typography>
+            <Typography variant="body2">
+              Inicio {row.dataInicio}
+              <br />
+              Fim {row.dataFim}
+              <br />
+              <br />
+              {row["participantes"].map((item) => ` ${item.user.name},`)}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
+        {/* ))} */}
+      </>
+    );
+  }
+
   return (
     <Box>
       <Box m={2} display={"flex"} justifyContent="center">
@@ -52,7 +90,7 @@ const ListaCursos = () => {
           Listar Cursos
         </LoadingButton>
       </Box>
-      <TableContainer
+      {/* <TableContainer
         sx={{ display: result.length === 0 ? "none" : "" }}
         component={Paper}
       >
@@ -87,7 +125,20 @@ const ListaCursos = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
+      <Box>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 2 }}
+          columns={{ xs: 2, sm: 8, md: 12 }}
+        >
+          {result.map((row) => (
+            <Grid item xs={4} sm={4} md={4} key={row.title}>
+              <BasicCard row={row} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 };
