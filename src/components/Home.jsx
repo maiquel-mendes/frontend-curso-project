@@ -19,6 +19,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import HomeIcon from '@mui/icons-material/Home';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -71,9 +74,9 @@ export default function Home({ mode, setMode }) {
       <Drawer anchor={teste} onClick={handleDrawerClose} open={open}>
         <List>
           {[
-            { name: "Criar curso", link: "cria-curso" },
-            { name: "Listar cursos", link: "lista-curso" },
-            { name: "Spam", link: "login" },
+            { name: "Home", link: "/", icon: (<HomeIcon />) },
+            { name: "Criar atividade", link: "cria-curso", icon: (<NoteAddIcon />) },
+            { name: "Listar atividade", link: "lista-curso", icon: (<ListAltIcon />) },
           ].map((item, index) => (
             <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -91,7 +94,8 @@ export default function Home({ mode, setMode }) {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {item.icon}
+                  {/* <InboxIcon /> */}
                 </ListItemIcon>
                 <ListItemText
                   primary={item.name}
@@ -106,7 +110,7 @@ export default function Home({ mode, setMode }) {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, m: 3 }} open={open}>
         <DrawerHeader />
-        <Typography align="center" variant="h3">
+        <Typography align="center" variant="h4">
           Abra o menu para visualizar as opções disponiveis
         </Typography>
         <Outlet />
