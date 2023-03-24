@@ -21,8 +21,8 @@ const ListaCursos = () => {
   async function getAtividades() {
     setisLoading(true);
     const data = await axios
-      // .get("https://api-curso-project.vercel.app/cursos")
-      .get("http://192.168.15.40:3000/cursos")
+      .get("https://api-curso-project.vercel.app/cursos")
+      // .get("http://192.168.15.40:3000/cursos")
       .then((dados) => {
         setisLoading(false);
         return dados.data;
