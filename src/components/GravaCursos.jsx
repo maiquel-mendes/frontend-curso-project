@@ -37,8 +37,8 @@ const GravaCursos =  () => {
 
     try {
       const res = await axios.post(
-        // "https://api-curso-project.vercel.app/cursos",
-        "http://192.168.15.40:3000/cursos",
+        "https://api-curso-project.vercel.app/cursos",
+        // "http://192.168.15.40:3000/cursos",
         {
           dadosCurso: inputs,
         }
