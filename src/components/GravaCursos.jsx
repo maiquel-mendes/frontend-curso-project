@@ -54,7 +54,7 @@ const GravaCursos =  () => {
    async function getUsers () {
     try {
     const res = await axios.get(
-      "http://192.168.15.40:3000/user"
+      "https://api-curso-project.vercel.app/user"
       );
     console.log(res.data);
     setOperadores(res.data) 
