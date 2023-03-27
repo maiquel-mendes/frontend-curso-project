@@ -12,7 +12,7 @@ const Atividade = () => {
     setLoading(true)
     try {
       const res = await axios.get(
-        process.env.NODE_ENV === "development" ? `http://192.168.15.40:3000/api/cursos/${id}` : `https://api-curso-project.vercel.app/cursos/${id}`
+        process.env.NODE_ENV === "development" ? `http://192.168.15.40:3000/api/cursos/${id}` : `https://api-curso-project.vercel.app/api/cursos/${id}`
       );
       console.log(res.data);
       setAtividade(res.data)
