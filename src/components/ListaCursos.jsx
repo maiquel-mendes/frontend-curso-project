@@ -4,14 +4,17 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useState } from "react";
 import {
+  Backdrop,
   Box,
   Button,
   Card,
   CardActions,
   CardContent,
+  CircularProgress,
   Grid,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 
 const ListaCursos = () => {
@@ -21,8 +24,10 @@ const ListaCursos = () => {
   async function getAtividades() {
     setisLoading(true);
     const data = await axios
-      .get("https://api-curso-project.vercel.app/cursos")
-      // .get("http://192.168.15.40:3000/cursos")
+      .get(process.env.NODE_ENV === "development"
+        ? "http://192.168.15.40:3000/api/cursos/"
+        : "https://api-curso-project.vercel.app/cursos"
+      )
       .then((dados) => {
         setisLoading(false);
         return dados.data;
@@ -31,32 +36,34 @@ const ListaCursos = () => {
     setResult(data);
   }
 
-  
+
 
   function BasicCard({ row }) {
     return (
       <>
-        <Card key={row.id} /*sx={{ minWidth: 300, maxWidth: 300 }}*/>
+        <Card key={row.id} elevation={4} /*sx={{ minWidth: 300, maxWidth: 300 }}*/>
           <CardContent>
-            <Typography variant="h5" component="div">
+            <Typography variant="h6" component="div" >
               {row.title}
             </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            <Typography sx={{ mb: 1.5 }} color="text.secondary" >
               {row.body}
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" >
               Inicio {row.dataInicio}
               <br />
               Fim {row.dataFim}
               <br />
               <br />
-              Participantes:
-              <br/>
+              Participantes: {row.participantes.length}
+              <br />
               {row["participantes"].map((item) => ` ${item.user.name},`)}
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Mais informações</Button>
+            <Link to={`/lista-curso/atividade/${row.id}`} style={{ textDecoration: 'none' }}>
+              <Button size="small">Mais informações</Button>
+            </Link>
           </CardActions>
         </Card>
       </>
@@ -66,7 +73,7 @@ const ListaCursos = () => {
   return (
     <Box>
       <Box m={2} display={"flex"} justifyContent="center">
-        <LoadingButton
+        {/* <LoadingButton
           loading={isLoading}
           loadingPosition="start"
           startIcon={<ListAltIcon />}
@@ -74,10 +81,26 @@ const ListaCursos = () => {
           onClick={getAtividades}
         >
           Listar atividades
-        </LoadingButton>
+        </LoadingButton> */}
+        <Button
+          startIcon={<ListAltIcon />}
+          onClick={getAtividades}
+        >Listar Atividades
+        </Button>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+          onClick={() => setisLoading(false)}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+
       </Box>
-     
+
       <Box>
+        <Typography variant="h5" component="div" display={'flex'}>
+          Total de atividades: {result.length}
+        </Typography>
         <Grid
           container
           spacing={{ xs: 2, md: 2 }}

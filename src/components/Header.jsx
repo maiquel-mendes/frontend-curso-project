@@ -16,11 +16,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
-import { Outlet } from "react-router-dom";
-import { Button, Drawer } from "@mui/material";
-import { Link } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
-import { Container } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",

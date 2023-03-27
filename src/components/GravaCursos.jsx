@@ -21,7 +21,7 @@ const initialState = {
   participantes: [],
 }
 
-const GravaCursos =  () => {
+const GravaCursos = () => {
   const [inputs, setInputs] = React.useState(initialState);
   const [operadores, setOperadores] = useState([])
 
@@ -37,8 +37,9 @@ const GravaCursos =  () => {
 
     try {
       const res = await axios.post(
-        "https://api-curso-project.vercel.app/cursos",
-        // "http://192.168.15.40:3000/cursos",
+        process.env.NODE_ENV === "development"
+          ? "http://192.168.15.40:3000/api/cursos"
+          : "https://api-curso-project.vercel.app/api/cursos",
         {
           dadosCurso: inputs,
         }
@@ -51,24 +52,24 @@ const GravaCursos =  () => {
     }
   };
 
-   async function getUsers () {
+  async function getUsers() {
     try {
-    const res = await axios.get(
-      "https://api-curso-project.vercel.app/user"
+      const res = await axios.get(
+        process.env.NODE_ENV === "development" ? "http://192.168.15.40:3000/api/user" : "https://api-curso-project.vercel.app/api/user"
       );
-    console.log(res.data);
-    setOperadores(res.data) 
-  } catch (e) {
-    alert(e.message);
-  }
-  
+      console.log(res.data);
+      setOperadores(res.data)
+    } catch (e) {
+      alert(e.message);
+    }
+
   };
 
-useEffect(() => {
+  useEffect(() => {
 
-  getUsers()
-}
-,[])
+    getUsers()
+  }
+    , [])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -80,6 +81,7 @@ useEffect(() => {
           flexDirection={"column"}
           gap={2}
           marginTop={1}
+          maxWidth={900}
         >
           <TextField
             name="title"
@@ -88,7 +90,7 @@ useEffect(() => {
             value={inputs.title}
             onChange={handleChange}
             variant="outlined"
-            // sx={{ mb: 2 }}
+          // sx={{ mb: 2 }}
           />
           <TextField
             name="body"
@@ -97,13 +99,13 @@ useEffect(() => {
             value={inputs.body}
             onChange={handleChange}
             variant="outlined"
-            // sx={{ margin: 3 }}
+          // sx={{ margin: 3 }}
           />
           <DatePicker
             label="Data Inicial"
             value={inputs.dataInicio}
             onChange={(e) => setInputs({ ...inputs, dataInicio: dayjs(e) })}
-            // sx={{ margin: 3 }}
+          // sx={{ margin: 3 }}
           />
           <DatePicker
             label="Data Final"
@@ -112,26 +114,27 @@ useEffect(() => {
             onChange={(e) => setInputs({ ...inputs, dataFim: dayjs(e) })}
           />
           <Autocomplete
-        multiple
-        value={inputs.participantes}
-        onChange={(e, value) =>{ 
-          console.log(inputs.participantes);
-          setInputs({ ...inputs, participantes: value })}}
-        id="tags-outlined"
-        options={operadores}
-        getOptionLabel={(option) => option?.name}
-        defaultValue={[]}
-        filterSelectedOptions
-        renderInput={(params) => (
-          <TextField          
-            {...params}
-            label="Incluir participantes"
-            placeholder="Participantes"
+            multiple
+            value={inputs.participantes}
+            onChange={(e, value) => {
+              console.log(inputs.participantes);
+              setInputs({ ...inputs, participantes: value })
+            }}
+            id="tags-outlined"
+            options={operadores}
+            getOptionLabel={(option) => option?.name}
+            defaultValue={[]}
+            filterSelectedOptions
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Incluir participantes"
+                placeholder="Participantes"
+              />
+            )}
           />
-        )}
-      />
           <Button sx={{ p: 2, m: 3 }} variant="contained" onClick={onSubmit}>
-            <SaveIcon/>
+            <SaveIcon />
             Gravar
           </Button>
         </Box>
