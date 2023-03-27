@@ -26,7 +26,7 @@ const ListaCursos = () => {
     const data = await axios
       .get(process.env.NODE_ENV === "development"
         ? "http://192.168.15.40:3000/api/cursos/"
-        : "https://api-curso-project.vercel.app/cursos"
+        : "https://api-curso-project.vercel.app/api/cursos"
       )
       .then((dados) => {
         setisLoading(false);
