@@ -12,9 +12,10 @@ const Atividade = () => {
     setLoading(true)
     try {
       const res = await axios.get(
-        process.env.NODE_ENV === "development" ? `http://192.168.15.40:3000/api/cursos/${id}` : `https://api-curso-project.vercel.app/api/cursos/${id}`
+        process.env.NODE_ENV === "development"
+          ? `http://192.168.15.40:3000/api/cursos/${id}`
+          : `https://api-curso-project.vercel.app/api/cursos/${id}`
       );
-      console.log(res.data);
       setAtividade(res.data)
       setLoading(false)
     } catch (e) {
@@ -44,6 +45,8 @@ const Atividade = () => {
           <TableHead>
             <TableRow>
               <TableCell>Nome</TableCell>
+              <TableCell align="center">Nome de guerra</TableCell>
+              <TableCell align="center">Instituição</TableCell>
               <TableCell align="right">Condição</TableCell>
 
             </TableRow>
@@ -57,6 +60,8 @@ const Atividade = () => {
                 <TableCell component="th" scope="row">
                   {row.user.name}
                 </TableCell>
+                <TableCell align="center">{row.situacao}</TableCell>
+                <TableCell align="right">{row.situacao}</TableCell>
                 <TableCell align="right">{row.situacao}</TableCell>
 
               </TableRow>
@@ -87,7 +92,7 @@ const Atividade = () => {
               {atividade.body}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Participantes:
+              Participantes:{atividade.participantes.length}
             </Typography>
             <BasicTable />
           </CardContent>

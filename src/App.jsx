@@ -6,6 +6,8 @@ import ListaCursos from "./components/ListaCursos";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Atividade from "./components/Atividade";
+import Index from "./components/Index";
+import CreateUser from "./components/CreateUser";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -20,9 +22,11 @@ function App() {
       <CssBaseline />
       <Routes>
         <Route path="/" element={<Home mode={mode} setMode={setMode} />}>
-          <Route path="/lista-curso/atividade/:id" element={<Atividade/>} />
+          <Route index element={<Index />} />
+          <Route path="/lista-curso/atividade/:id" element={<Atividade />} />
           <Route path="lista-curso" element={<ListaCursos />} />
           <Route path="cria-curso" element={<GravaCursos />} />
+          <Route path="create-user" element={<CreateUser />} />
         </Route>
       </Routes>
     </ThemeProvider>

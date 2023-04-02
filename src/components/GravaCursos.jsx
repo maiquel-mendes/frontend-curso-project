@@ -1,4 +1,4 @@
-import { Autocomplete, Button } from "@mui/material";
+import { Autocomplete, Button, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -33,7 +33,7 @@ const GravaCursos = () => {
   };
 
   const onSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     try {
       const res = await axios.post(
@@ -73,6 +73,9 @@ const GravaCursos = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+      <Typography align="center" variant="h4">
+        Criar uma nova atividade
+      </Typography>
       <Box display={"flex"} justifyContent="center">
         <Box
           width={1}

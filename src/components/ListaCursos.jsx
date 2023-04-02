@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import LoadingButton from "@mui/lab/LoadingButton";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useState } from "react";
 import {
@@ -31,9 +30,12 @@ const ListaCursos = () => {
       .then((dados) => {
         setisLoading(false);
         return dados.data;
-      });
-
+      }).catch((err) => {
+        console.log(err);
+        setisLoading(false)
+      })
     setResult(data);
+
   }
 
 
@@ -50,14 +52,8 @@ const ListaCursos = () => {
               {row.body}
             </Typography>
             <Typography variant="body2" >
-              Inicio {row.dataInicio}
+              Data {row.dataInicio}
               <br />
-              Fim {row.dataFim}
-              <br />
-              <br />
-              Participantes: {row.participantes.length}
-              <br />
-              {row["participantes"].map((item) => ` ${item.user.name},`)}
             </Typography>
           </CardContent>
           <CardActions>
@@ -73,16 +69,9 @@ const ListaCursos = () => {
   return (
     <Box>
       <Box m={2} display={"flex"} justifyContent="center">
-        {/* <LoadingButton
-          loading={isLoading}
-          loadingPosition="start"
-          startIcon={<ListAltIcon />}
-          variant="outlined"
-          onClick={getAtividades}
-        >
-          Listar atividades
-        </LoadingButton> */}
+
         <Button
+          variant="contained"
           startIcon={<ListAltIcon />}
           onClick={getAtividades}
         >Listar Atividades

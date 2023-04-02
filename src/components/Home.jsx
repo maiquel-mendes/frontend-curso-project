@@ -14,6 +14,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import HomeIcon from '@mui/icons-material/Home';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Header from "./Header";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AppBar, Drawer } from "@mui/material";
@@ -27,7 +28,6 @@ export default function Home({ mode, setMode }) {
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
-    console.log(teste);
     setOpen(true);
   };
 
@@ -43,7 +43,7 @@ export default function Home({ mode, setMode }) {
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }));
-  const teste = window.innerWidth <= 900 ? "bottom" : "left";
+  const drawerAnchor = window.innerWidth <= 900 ? "bottom" : "left";
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -58,12 +58,13 @@ export default function Home({ mode, setMode }) {
           drawerWidth={drawerWidth}
         />
       </AppBar>
-      <Drawer anchor={teste} onClick={handleDrawerClose} open={open}>
+      <Drawer anchor={drawerAnchor} onClick={handleDrawerClose} open={open}>
         <List>
           {[
             { name: "Home", link: "/", icon: (<HomeIcon />) },
             { name: "Criar atividade", link: "cria-curso", icon: (<NoteAddIcon />) },
             { name: "Listar atividade", link: "lista-curso", icon: (<ListAltIcon />) },
+            { name: "Criar usuario", link: "create-user", icon: (<PersonAddIcon />) },
           ].map((item, index) => (
             <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -95,9 +96,7 @@ export default function Home({ mode, setMode }) {
 
       <Box component="main" sx={{ flexGrow: 1, p: 3, m: 3 }} open={open}>
         <DrawerHeader />
-        <Typography align="center" variant="h4">
-          Abra o menu para visualizar as opções disponiveis
-        </Typography>
+
         <Outlet />
       </Box>
     </Box>
