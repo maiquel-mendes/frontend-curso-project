@@ -79,8 +79,6 @@ const Atividade = () => {
           <TableHead>
             <TableRow>
               <TableCell>Nome</TableCell>
-              {/* <TableCell align="center">Nome de guerra</TableCell>
-              <TableCell align="center">Instituição</TableCell> */}
               <TableCell align="right">Condição</TableCell>
 
             </TableRow>
@@ -88,16 +86,18 @@ const Atividade = () => {
           <TableBody >
             {atividade.participantes.map((row, index) => (
               <TableRow
-                key={row[index]}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                key={row.user.name}
               >
                 <TableCell component="th" scope="row">
                   {row.user.name}
                 </TableCell>
-                {/* <TableCell align="center">{row.situacao}</TableCell>
-                <TableCell align="right">{row.situacao}</TableCell> */}
                 <TableCell align="right">{row.situacao}</TableCell>
-                <TableCell sx={{ border: 'none' }} component={Button} onClick={() => deleteParticipante(row.id)}><Delete /></TableCell>
+                <TableCell sx={{ border: 'none' }} >
+                  <Button onClick={() => deleteParticipante(row.id)}>
+                    <Delete />
+                  </Button>
+                </TableCell>
 
               </TableRow>
             ))}
@@ -124,6 +124,14 @@ const Atividade = () => {
           </Typography>
           <Typography mb={4} variant="h6" color="text.secondary">
             {atividade.body}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Datas da atividade
+          </Typography>
+          <Typography mb={4} variant="h6" color="text.secondary">
+            Inicio: {atividade.dataInicio}
+            <br />
+            Fim: {atividade.dataFim}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Participantes:{atividade.participantes.length}

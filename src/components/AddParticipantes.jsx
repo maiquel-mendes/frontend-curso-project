@@ -6,6 +6,8 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
     const [inputs, setInputs] = useState([])
     const [operadores, setOperadores] = useState([])
 
+    const participantesCadastrados = atividade.participantes.map(item => item.user.name)
+
     const onSubmit = async (e) => {
         e.preventDefault();
 
@@ -18,7 +20,6 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
                     participantes: inputs,
                 }
             );
-            console.log(res.data);
             setOpen(false)
             getAtividade()
             //   setInputs(initialState)
@@ -32,15 +33,14 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
             const res = await axios.get(
                 process.env.NODE_ENV === "development" ? "http://192.168.15.40:3000/api/user" : "https://api-curso-project.vercel.app/api/user"
             );
-            console.log(res.data);
-            setOperadores(res.data)
+            const resFiltered = res.data.filter((item) => participantesCadastrados.includes(item.name) ? false : true)
+            setOperadores(resFiltered)
         } catch (e) {
             alert(e.message);
         }
     };
 
     useEffect(() => {
-
         getUsers()
     }
         , [])
@@ -51,7 +51,6 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
                 multiple
                 value={inputs}
                 onChange={(e, value) => {
-                    console.log(inputs);
                     setInputs(value)
                 }}
                 id="tags-outlined"
