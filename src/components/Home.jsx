@@ -15,6 +15,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import Header from "./Header";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AppBar, Drawer } from "@mui/material";
@@ -65,6 +66,7 @@ export default function Home({ mode, setMode }) {
             { name: "Criar atividade", link: "cria-curso", icon: (<NoteAddIcon />) },
             { name: "Listar atividade", link: "lista-curso", icon: (<ListAltIcon />) },
             { name: "Criar usuario", link: "create-user", icon: (<PersonAddIcon />) },
+            { name: "Listar usuarios", link: "list-user", icon: (<FolderSharedIcon />) },
           ].map((item, index) => (
             <ListItem key={item.name} disablePadding sx={{ display: "block" }}>
               <ListItemButton

@@ -8,6 +8,7 @@ import Home from "./components/Home";
 import Atividade from "./components/Atividade";
 import Index from "./components/Index";
 import CreateUser from "./components/CreateUser";
+import Users from "./components/Users";
 
 function App() {
   const [mode, setMode] = useState("dark");
@@ -27,6 +28,7 @@ function App() {
           <Route path="lista-curso" element={<ListaCursos />} />
           <Route path="cria-curso" element={<GravaCursos />} />
           <Route path="create-user" element={<CreateUser />} />
+          <Route path="list-user" element={<Users />} />
         </Route>
       </Routes>
     </ThemeProvider>
