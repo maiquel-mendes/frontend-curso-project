@@ -3,51 +3,31 @@ import {
     Container, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AddParticipantes from './AddParticipantes';
 import { Delete } from '@mui/icons-material';
+import { UserContext } from '../context/UserContext';
 
 const Users = () => {
     const { id } = useParams()
-    const [operadores, setOperadores] = useState({})
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    async function getUsers() {
-        setLoading(true)
-
-        try {
-            const res = await axios.get(
-                process.env.NODE_ENV === "development" ? "http://192.168.15.40:3000/api/user" : "https://api-curso-project.vercel.app/api/user"
-            );
-            // const resFiltered = res.data.filter((item) => participantesCadastrados.includes(item.name) ? false : true)
-            setOperadores(res.data)
-            console.log(operadores);
-            setLoading(false)
-        } catch (e) {
-            alert(e.message);
-        }
-    };
-
-    useEffect(() => {
-        getUsers()
-    }
-        , [])
+    const { operadores } = useContext(UserContext)
 
 
-
-    if (loading) {
-        return (<Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={loading}
-        // onClick={() => setLoading(false)}
-        >
-            <CircularProgress color="inherit" />
-        </Backdrop>)
-    }
+    // if (loading) {
+    //     return (<Backdrop
+    //         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    //         open={loading}
+    //     // onClick={() => setLoading(false)}
+    //     >
+    //         <CircularProgress color="inherit" />
+    //     </Backdrop>)
+    // }
 
     const style = {
         position: 'absolute',

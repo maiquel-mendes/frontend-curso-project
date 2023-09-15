@@ -27,7 +27,7 @@ const CreateUser = () => {
         try {
             const res = await axios.post(
                 process.env.NODE_ENV === "development"
-                    ? "http://192.168.15.40:3000/api/user"
+                    ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/user`
                     : "https://api-curso-project.vercel.app/api/user",
                 {
                     usuarios: [inputs],

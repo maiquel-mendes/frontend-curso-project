@@ -1,12 +1,16 @@
 import { Autocomplete, Button, TextField } from '@mui/material';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { UserContext } from '../context/UserContext';
 
 const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
     const [inputs, setInputs] = useState([])
-    const [operadores, setOperadores] = useState([])
+
+    const { operadores } = useContext(UserContext)
 
     const participantesCadastrados = atividade.participantes.map(item => item.user.name)
+
+    const operadoresFilter = operadores.filter((item) => participantesCadastrados.includes(item.name) ? false : true)
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -14,7 +18,7 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
         try {
             const res = await axios.patch(
                 process.env.NODE_ENV === "development"
-                    ? `http://192.168.15.40:3000/api/cursos/${id}`
+                    ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos/${id}`
                     : `https://api-curso-project.vercel.app/api/cursos/${id}`,
                 {
                     participantes: inputs,
@@ -22,28 +26,12 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
             );
             setOpen(false)
             getAtividade()
-            //   setInputs(initialState)
+            console.log(operadores);
         } catch (e) {
             alert(e.message);
         }
     };
 
-    async function getUsers() {
-        try {
-            const res = await axios.get(
-                process.env.NODE_ENV === "development" ? "http://192.168.15.40:3000/api/user" : "https://api-curso-project.vercel.app/api/user"
-            );
-            const resFiltered = res.data.filter((item) => participantesCadastrados.includes(item.name) ? false : true)
-            setOperadores(resFiltered)
-        } catch (e) {
-            alert(e.message);
-        }
-    };
-
-    useEffect(() => {
-        getUsers()
-    }
-        , [])
 
     return (
         <div>
@@ -54,7 +42,7 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
                     setInputs(value)
                 }}
                 id="tags-outlined"
-                options={operadores}
+                options={operadoresFilter}
                 getOptionLabel={(option) => option?.name}
                 defaultValue={[]}
                 filterSelectedOptions

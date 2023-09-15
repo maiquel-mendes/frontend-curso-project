@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
+import { styled, alpha, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -18,6 +18,9 @@ import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 import { useNavigate } from "react-router-dom";
+import { ColorModeContext } from "../App";
+
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,9 +62,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
 export default function Header({
-  mode,
-  setMode,
   handleDrawerClose,
   handleDrawerOpen,
   open,
@@ -74,6 +77,8 @@ export default function Header({
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const navigate = useNavigate();
+  const theme = useTheme();
+  const colorMode = React.useContext(ColorModeContext)
 
   // const handleDrawer = () => {
   //   return (
@@ -158,13 +163,10 @@ export default function Header({
         <p>Alertas</p>
       </MenuItem>
       <MenuItem
-        onClick={() => {
-          setMode((mode) => (mode === "light" ? "dark" : "light"));
-          console.log(mode);
-        }}
+        onClick={() => { }}
       >
         <IconButton size="large" color="inherit">
-          {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+          {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
         <p>Tema</p>
       </MenuItem>
@@ -219,12 +221,9 @@ export default function Header({
           <IconButton
             size="large"
             color="inherit"
-            onClick={() => {
-              setMode((mode) => (mode === "light" ? "dark" : "light"));
-              console.log(mode);
-            }}
+            onClick={colorMode.toggleColorMode}
           >
-            {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
           <IconButton
             size="large"

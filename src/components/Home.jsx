@@ -22,7 +22,7 @@ import { AppBar, Drawer } from "@mui/material";
 
 const drawerWidth = 240;
 
-export default function Home({ mode, setMode }) {
+export default function Home() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -50,8 +50,6 @@ export default function Home({ mode, setMode }) {
       <CssBaseline />
       <AppBar open={open}>
         <Header
-          mode={mode}
-          setMode={setMode}
           handleDrawerClose={handleDrawerClose}
           handleDrawerOpen={handleDrawerOpen}
           open={open}
