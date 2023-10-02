@@ -11,14 +11,14 @@ import CreateUser from "./components/CreateUser";
 import Users from "./components/Users";
 import { UserProvider } from "./context/UserContext";
 
-export const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
+export const ColorModeContext = React.createContext();
 
 export default function App() {
-  const [mode, setMode] = React.useState('light');
+  const [mode, setMode] = React.useState('dark');
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode((prevMode) => (prevMode === 'dark' ? 'light' : 'dark'));
       },
     }),
     [],

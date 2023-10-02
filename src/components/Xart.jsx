@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import React, { Component, useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Chart from "react-apexcharts";
 import { UserContext } from "../context/UserContext";
 
@@ -7,6 +7,7 @@ import { UserContext } from "../context/UserContext";
 
 export default function Xart() {
     const theme = useTheme()
+
 
     const { operadores } = useContext(UserContext)
 
@@ -17,33 +18,27 @@ export default function Xart() {
     const state = {
 
         series: [{
-            name: '',
-            data: //[1, 2, 3, 4, 5, 6, 7, 8]
-                dados.map(i => i[1]).slice(0, 10)
+            name: 'oi',
+            data: dados.map(i => i[1]).slice(0, 10)
 
         }],
+        noData: {
+            text: 'Loading...'
+        },
         options: {
             tooltip: {
                 x: {
                     show: true
                 },
 
-                // enabled: true,
-
                 style: {
                     fontSize: '22px',
-                    fontFamily: undefined
+
                 }
             },
             theme: {
                 mode: theme.palette.mode,
-                palette: 'palette1',
-                monochrome: {
-                    enabled: false,
-                    color: '#255aee',
-                    shadeTo: 'dark',
-                    shadeIntensity: 0.65
-                },
+                palette: theme.palette
             },
 
             chart: {
@@ -57,7 +52,7 @@ export default function Xart() {
             },
             plotOptions: {
                 bar: {
-                    columnWidth: '45%',
+                    columnWidth: '75%',
                     distributed: true,
                 }
             },
@@ -69,22 +64,7 @@ export default function Xart() {
             },
             xaxis: {
                 categories: dados.map(i => i[0]).slice(0, 10)
-                // [
-                //     ['John', 'Doe'],
-                //     ['Joe', 'Smith'],
-                //     ['Jake', 'Williams'],
-                //     'Amber',
-                //     ['Peter', 'Brown'],
-                //     ['Mary', 'Evans'],
-                //     ['David', 'Wilson'],
-                //     ['Lily', 'Roberts'],
-                // ],
-                // labels: {
-                //     style: {
-                //         colors: "#850f0f",
-                //         fontSize: '22px'
-                //     }
-                // }
+
             }
         },
 
@@ -93,7 +73,7 @@ export default function Xart() {
 
     return (
 
-        <div id="chart">
+        <div >
             <Chart options={state.options} series={state.series} type="bar" height={350} />
         </div>
 
@@ -103,4 +83,3 @@ export default function Xart() {
 
 
 
-// export default Xart;

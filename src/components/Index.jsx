@@ -2,14 +2,20 @@ import { Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import Xart from './Xart'
 
-const Index = ({ mode }) => {
+const Index = () => {
 
 
     return (
-        <Typography align="center" variant="h4">
+        <div>
             <Xart />
-            Abra o menu para visualizar as opções disponiveis
-        </Typography>
+
+            <Typography align="center" variant="h5" >
+                Sistema cadastro de cursos e treinamentos
+            </Typography>
+            <Typography align="center" variant="h4" >
+                <img src="/doe.svg" alt="" height={200} />
+            </Typography>
+        </div>
     )
 }
 

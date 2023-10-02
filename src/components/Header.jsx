@@ -163,7 +163,7 @@ export default function Header({
         <p>Alertas</p>
       </MenuItem>
       <MenuItem
-        onClick={() => { }}
+        onClick={colorMode.toggleColorMode}
       >
         <IconButton size="large" color="inherit">
           {theme.palette.mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}

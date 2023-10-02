@@ -30,6 +30,7 @@ const ListaCursos = () => {
       )
       .then((dados) => {
         setisLoading(false);
+        console.log(dados.data);
         return dados.data;
       }).catch((err) => {
         console.log(err);
