@@ -13,6 +13,7 @@ import { TextField } from "@mui/material";
 import { Container } from "@mui/material";
 import { Box } from "@mui/material";
 
+dayjs.locale('pt-br')
 const initialState = {
   title: "",
   body: "",
@@ -20,6 +21,7 @@ const initialState = {
   dataFim: dayjs(),
   participantes: [],
 }
+
 
 const GravaCursos = () => {
   const [inputs, setInputs] = React.useState(initialState);

@@ -1,12 +1,13 @@
 import {
   Backdrop, Box, Button, Card, CardActionArea, CardContent, CircularProgress,
-  Container, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
+  Container, Dialog, DialogContent, DialogTitle, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AddParticipantes from './AddParticipantes';
 import { Delete } from '@mui/icons-material';
+import dayjs from 'dayjs';
 
 const Atividade = () => {
   const { id } = useParams()
@@ -129,26 +130,32 @@ const Atividade = () => {
             Datas da atividade
           </Typography>
           <Typography mb={4} variant="h6" color="text.secondary">
-            Inicio: {atividade.dataInicio}
+            Inicio: {dayjs(atividade.dataInicio).format('DD/MM/YYYY')}
             <br />
-            Fim: {atividade.dataFim}
+            Fim: {dayjs(atividade.dataFim).format('DD/MM/YYYY')}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Participantes:{atividade.participantes.length}
           </Typography>
           <BasicTable />
+          <Box>
+            <Button onClick={handleOpen}>Editar Atividade</Button>
+          </Box>
         </CardContent>
-        <Button onClick={handleOpen}>Cadastrar participantes</Button>
-        <Modal
+        <Dialog
+          fullWidth
           open={open}
           onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+        // aria-labelledby="modal-modal-title"
+        // aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
-            <AddParticipantes id={id} atividade={atividade} setOpen={setOpen} getAtividade={getAtividade} />
-          </Box>
-        </Modal>
+          <DialogContent>
+
+            <Box >
+              <AddParticipantes id={id} atividade={atividade} setOpen={setOpen} getAtividade={getAtividade} />
+            </Box>
+          </DialogContent>
+        </Dialog>
       </Card>
     </Box>
   )

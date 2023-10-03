@@ -7,7 +7,7 @@ import axios from 'axios';
 const initialState = {
     name: "",
     email: "",
-    role: "",
+    role: "USER",
 
 }
 
@@ -24,6 +24,10 @@ const CreateUser = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
 
+        if (inputs.email === '') {
+            inputs.email = `${Date.now()}@email.com`
+        }
+
         try {
             const res = await axios.post(
                 process.env.NODE_ENV === "development"
@@ -37,7 +41,7 @@ const CreateUser = () => {
             console.log(inputs);
             setInputs(initialState)
         } catch (e) {
-            alert(e.message);
+            console.error(e.response.data);
         }
     };
 
