@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useState } from "react";
@@ -30,7 +30,6 @@ const ListaCursos = () => {
       )
       .then((dados) => {
         setisLoading(false);
-        console.log(dados.data);
         return dados.data;
       }).catch((err) => {
         console.log(err);
@@ -40,6 +39,9 @@ const ListaCursos = () => {
 
   }
 
+  useEffect(() => {
+    getAtividades()
+  }, [])
 
 
   function BasicCard({ row }) {

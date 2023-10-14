@@ -18,7 +18,7 @@ export default function Xart() {
     const state = {
 
         series: [{
-            name: 'oi',
+            name: 'atividades',
             data: dados.map(i => i[1]).slice(0, 10)
 
         }],

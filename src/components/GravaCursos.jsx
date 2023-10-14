@@ -1,17 +1,19 @@
-import { Autocomplete, Button, Typography } from "@mui/material";
+import { Alert, Autocomplete, Button, IconButton, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SaveIcon from "@mui/icons-material/Save";
+import CloseIcon from '@mui/icons-material/Close';
+import Collapse from '@mui/material/Collapse';
 
 
 import axios from "axios";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "dayjs/locale/pt-br";
 import { TextField } from "@mui/material";
-import { Container } from "@mui/material";
 import { Box } from "@mui/material";
+import { UserContext } from "../context/UserContext";
 
 dayjs.locale('pt-br')
 const initialState = {
@@ -25,7 +27,9 @@ const initialState = {
 
 const GravaCursos = () => {
   const [inputs, setInputs] = React.useState(initialState);
-  const [operadores, setOperadores] = useState([])
+  const [open, setOpen] = useState(false)
+
+  const { operadores } = useContext(UserContext)
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -48,29 +52,12 @@ const GravaCursos = () => {
       );
       //      console.log(inputs);
       setInputs(initialState)
+      setOpen(true)
     } catch (e) {
       alert(e.message);
     }
   };
 
-  async function getUsers() {
-    try {
-      const res = await axios.get(
-        process.env.NODE_ENV === "development" ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/user` : "https://api-curso-project.vercel.app/api/user"
-      );
-      //console.log(res.data);
-      setOperadores(res.data)
-    } catch (e) {
-      alert(e.message);
-    }
-
-  };
-
-  useEffect(() => {
-
-    getUsers()
-  }
-    , [])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
@@ -141,6 +128,25 @@ const GravaCursos = () => {
             <SaveIcon />
             Gravar
           </Button>
+          <Collapse in={open}>
+            <Alert
+              variant="filled"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+            >
+              Atividade gravada com sucesso!
+            </Alert>
+          </Collapse>
         </Box>
       </Box>
     </LocalizationProvider>

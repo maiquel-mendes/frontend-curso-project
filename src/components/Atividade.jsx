@@ -1,21 +1,29 @@
 import {
   Backdrop, Box, Button, Card, CardActionArea, CardContent, CircularProgress,
-  Container, Dialog, DialogContent, DialogTitle, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
+  Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import AddParticipantes from './AddParticipantes';
-import { Delete } from '@mui/icons-material';
+import { Delete, DeleteOutline } from '@mui/icons-material';
 import dayjs from 'dayjs';
 
 const Atividade = () => {
   const { id } = useParams()
   const [atividade, setAtividade] = useState({})
   const [loading, setLoading] = useState(true);
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [dialog, setDialog] = React.useState({ editDiag: false, delDiag: false });
+  const handleOpen = (item) => setDialog((prevState) => ({
+    ...prevState,
+    [item]: true,
+  }));
+  const handleClose = (item) => setDialog((prevState) => ({
+    ...prevState,
+    [item]: false,
+  }));
+
+  const navigate = useNavigate()
 
   const getAtividade = async () => {
     setLoading(true)
@@ -32,15 +40,23 @@ const Atividade = () => {
       return null
     }
   }
-  const deleteParticipante = async (id) => {
+  const deleteParticipante = async (id, tipo) => {
+    setLoading(true)
+
     try {
       const res = await axios.delete(
         process.env.NODE_ENV === "development"
           ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos/${id}`
           : `https://api-curso-project.vercel.app/api/cursos/${id}`
-      );
+        , { data: { tipo } });
       console.log(res);
-      getAtividade()
+      setLoading(false)
+      if (tipo === 'curso') {
+        navigate("../..", { relative: "path" })
+      } else {
+        getAtividade()
+      }
+
     } catch (e) {
       alert(e.message);
       return null
@@ -95,8 +111,8 @@ const Atividade = () => {
                 </TableCell>
                 <TableCell align="right">{row.situacao}</TableCell>
                 <TableCell sx={{ border: 'none' }} >
-                  <Button onClick={() => deleteParticipante(row.id)}>
-                    <Delete />
+                  <Button variant='text' onClick={() => deleteParticipante(row.id, 'participante')}>
+                    <DeleteOutline />
                   </Button>
                 </TableCell>
 
@@ -112,13 +128,16 @@ const Atividade = () => {
     <Box mt={6} display={"flex"} alignContent='center' justifyContent={'center'}>
 
 
-      <Card elevation={4} sx={{ maxWidth: 800 }}>
+      <Card elevation={4} >
         <CardContent>
           <Typography variant="body2" color="text.secondary">
             Nome da atividade
           </Typography>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography display={'flex'} justifyContent={'space-between'} alignItems={'center'} gutterBottom variant="h5" component="div">
             {atividade.title}
+            <Button variant='contained' color='error' onClick={() => handleOpen('delDiag')}>
+              <Delete />
+            </Button>
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Descrição da atividade
@@ -139,22 +158,44 @@ const Atividade = () => {
           </Typography>
           <BasicTable />
           <Box>
-            <Button onClick={handleOpen}>Editar Atividade</Button>
+            <Button variant='contained' onClick={() => handleOpen('editDiag')}>Editar Atividade</Button>
           </Box>
         </CardContent>
         <Dialog
           fullWidth
-          open={open}
-          onClose={handleClose}
+          open={dialog.editDiag}
+          onClose={() => handleClose('editDiag')}
         // aria-labelledby="modal-modal-title"
         // aria-describedby="modal-modal-description"
         >
           <DialogContent>
 
             <Box >
-              <AddParticipantes id={id} atividade={atividade} setOpen={setOpen} getAtividade={getAtividade} />
+              <AddParticipantes id={id} atividade={atividade} handleClose={handleClose} getAtividade={getAtividade} />
             </Box>
           </DialogContent>
+        </Dialog>
+
+        <Dialog
+          open={dialog.delDiag}
+          onClose={() => handleOpen('delDiag')}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Você deseja realmente excluir essa atividade?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Alertamos que após a exclusão não será possivel recuperar os dados apagados!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant='contained' color='error' onClick={() => deleteParticipante(id, 'curso')}>Sim</Button>
+            <Button variant='contained' onClick={() => handleClose('delDiag')} autoFocus>
+              Não
+            </Button>
+          </DialogActions>
         </Dialog>
       </Card>
     </Box>

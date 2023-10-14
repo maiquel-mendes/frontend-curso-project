@@ -14,10 +14,10 @@ export const UserProvider = ({ children }) => {
             );
             // const resFiltered = res.data.filter((item) => participantesCadastrados.includes(item.name) ? false : true)
             setOperadores(res.data)
+            console.log(res.data);
         } catch (e) {
             alert(e.message);
         }
-        console.log(operadores);
     };
 
     useEffect(() => {
@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
         , [])
 
     return (
-        <UserContext.Provider value={{ operadores }}>
+        <UserContext.Provider value={{ operadores, getUsers }}>
             {children}
         </UserContext.Provider>
     )

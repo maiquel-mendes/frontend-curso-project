@@ -18,6 +18,24 @@ const Users = () => {
 
     const { operadores } = useContext(UserContext)
 
+    const deleteUser = async (id) => {
+        // setLoading(true)
+
+        try {
+            const res = await axios.delete(
+                process.env.NODE_ENV === "development"
+                    ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/user/${id}`
+                    : `https://api-curso-project.vercel.app/api/user/${id}`
+            );
+            console.log(res);
+            // setLoading(false)
+
+        } catch (e) {
+            alert(e.message);
+            return null
+        }
+    }
+
 
     // if (loading) {
     //     return (<Backdrop
@@ -66,11 +84,11 @@ const Users = () => {
                                     {row.name}
                                 </TableCell>
                                 <TableCell align="center">{row.cursos.length}</TableCell>
-                                {/* <TableCell sx={{ border: 'none' }} >
-                                    <Button onClick={() => console.log('oi')}>
+                                <TableCell sx={{ border: 'none' }} >
+                                    <Button onClick={() => deleteUser(row.id)}>
                                         <Delete />
                                     </Button>
-                                </TableCell> */}
+                                </TableCell>
 
                             </TableRow>
                         ))}

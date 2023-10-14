@@ -1,6 +1,6 @@
-import { Autocomplete, Box, Button, DialogContent, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -9,7 +9,7 @@ import "dayjs/locale/pt-br";
 
 
 dayjs.locale('pt-br')
-const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
+const AddParticipantes = ({ id, atividade, handleClose, getAtividade }) => {
 
     const initialState = {
         title: atividade.title,
@@ -45,9 +45,8 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
                     dadosCurso: inputs,
                 }
             );
-            setOpen(false)
+            handleClose('editDiag') // chama a função pra fechar o dialago de edição
             getAtividade()
-            console.log(operadores);
         } catch (e) {
             console.warn(e.response.data);
         }
@@ -62,51 +61,45 @@ const AddParticipantes = ({ id, atividade, setOpen, getAtividade }) => {
                 <Typography align="center" variant="h4">
                     Editar atividade
                 </Typography>
-                <DialogContent>
-                    <Box display={"flex"} justifyContent="center">
-                        <Box
-                            width={1}
-                            component={"form"}
-                            display="flex"
-                            flexDirection={"column"}
-                            gap={2}
-                            marginTop={1}
-                            maxWidth={900}
-                        >
-                            <TextField
-                                name="title"
-                                id="nome-curso"
-                                label="Nome da atividade"
-                                value={inputs.title}
-                                onChange={handleChange}
-                                variant="outlined"
-                            // sx={{ mb: 2 }}
-                            />
-                            <TextField
-                                inputMode='text'
-                                name="body"
-                                id="desc-curso"
-                                label="Descrição da atividade"
-                                value={inputs.body}
-                                onChange={handleChange}
-                                variant="outlined"
-                            // sx={{ margin: 3 }}
-                            />
-                            <DatePicker
-                                label="Data Inicial"
-                                value={inputs.dataInicio}
-                                onChange={(e) => setInputs({ ...inputs, dataInicio: dayjs(e) })}
-                            // sx={{ margin: 3 }}
-                            />
-                            <DatePicker
-                                label="Data Final"
-                                value={inputs.dataFim}
-                                // sx={{ margin: 3 }}
-                                onChange={(e) => setInputs({ ...inputs, dataFim: dayjs(e) })}
-                            />
-                        </Box>
+                <Box display={"flex"} justifyContent="center">
+                    <Box
+                        width={1}
+                        component={"form"}
+                        display="flex"
+                        flexDirection={"column"}
+                        gap={2}
+                        marginTop={1}
+                        maxWidth={900}
+                    >
+                        <TextField
+                            name="title"
+                            id="nome-curso"
+                            label="Nome da atividade"
+                            value={inputs.title}
+                            onChange={handleChange}
+                            variant="outlined"
+                        />
+                        <TextField
+                            inputMode='text'
+                            name="body"
+                            id="desc-curso"
+                            label="Descrição da atividade"
+                            value={inputs.body}
+                            onChange={handleChange}
+                            variant="outlined"
+                        />
+                        <DatePicker
+                            label="Data Inicial"
+                            value={inputs.dataInicio}
+                            onChange={(e) => setInputs({ ...inputs, dataInicio: dayjs(e) })}
+                        />
+                        <DatePicker
+                            label="Data Final"
+                            value={inputs.dataFim}
+                            onChange={(e) => setInputs({ ...inputs, dataFim: dayjs(e) })}
+                        />
                     </Box>
-                </DialogContent>
+                </Box>
                 <Autocomplete
                     multiple
                     value={inputs.participantes}
