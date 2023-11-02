@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGrou
 import SaveIcon from "@mui/icons-material/Save";
 
 import React from 'react'
-import axios from 'axios';
+import api from '../api/configure-axios';
 
 const initialState = {
     name: "",
@@ -29,10 +29,7 @@ const CreateUser = () => {
         }
 
         try {
-            const res = await axios.post(
-                process.env.NODE_ENV === "development"
-                    ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/user`
-                    : "https://api-curso-project.vercel.app/api/user",
+            const res = await api.post("/user",
                 {
                     usuarios: [inputs],
                 }

@@ -1,5 +1,7 @@
 import { Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
+import api from '../api/configure-axios';
+
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
@@ -37,10 +39,7 @@ const AddParticipantes = ({ id, atividade, handleClose, getAtividade }) => {
         e.preventDefault();
 
         try {
-            const res = await axios.patch(
-                process.env.NODE_ENV === "development"
-                    ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos/${id}`
-                    : `https://api-curso-project.vercel.app/api/cursos/${id}`,
+            const res = await api.patch(`/cursos/${id}`,
                 {
                     dadosCurso: inputs,
                 }

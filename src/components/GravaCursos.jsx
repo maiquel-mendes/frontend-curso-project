@@ -5,9 +5,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import SaveIcon from "@mui/icons-material/Save";
 import CloseIcon from '@mui/icons-material/Close';
 import Collapse from '@mui/material/Collapse';
+import Snackbar from '@mui/material/Snackbar';
 
-
-import axios from "axios";
+import api from '../api/configure-axios';
 import dayjs from "dayjs";
 import React, { useContext, useState } from "react";
 import "dayjs/locale/pt-br";
@@ -42,10 +42,7 @@ const GravaCursos = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        process.env.NODE_ENV === "development"
-          ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos`
-          : "https://api-curso-project.vercel.app/api/cursos",
+      const res = await api.post(`/cursos`,
         {
           dadosCurso: inputs,
         }
@@ -128,25 +125,11 @@ const GravaCursos = () => {
             <SaveIcon />
             Gravar
           </Button>
-          <Collapse in={open}>
-            <Alert
-              variant="filled"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-            >
+          <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)} >
+            <Alert severity="success" sx={{ width: '100%' }}>
               Atividade gravada com sucesso!
             </Alert>
-          </Collapse>
+          </Snackbar>
         </Box>
       </Box>
     </LocalizationProvider>

@@ -2,7 +2,7 @@ import {
     Backdrop, Box, Button, Card, CardActionArea, CardContent, CircularProgress,
     Container, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material';
-import axios from 'axios';
+import api from '../api/configure-axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import AddParticipantes from './AddParticipantes';
@@ -22,11 +22,8 @@ const Users = () => {
         // setLoading(true)
 
         try {
-            const res = await axios.delete(
-                process.env.NODE_ENV === "development"
-                    ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/user/${id}`
-                    : `https://api-curso-project.vercel.app/api/user/${id}`
-            );
+            const res = await api.delete(`/user/${id}`)
+
             console.log(res);
             // setLoading(false)
 

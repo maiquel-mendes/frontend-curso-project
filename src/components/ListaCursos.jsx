@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from "axios";
+import api from '../api/configure-axios';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { useState } from "react";
 import {
@@ -23,11 +23,7 @@ const ListaCursos = () => {
   async function getAtividades() {
     setisLoading(true);
 
-    const data = await axios
-      .get(process.env.NODE_ENV === "development"
-        ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos/`
-        : "https://api-curso-project.vercel.app/api/cursos"
-      )
+    const data = await api.get("/cursos")
       .then((dados) => {
         setisLoading(false);
         return dados.data;

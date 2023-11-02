@@ -192,7 +192,7 @@ const Atividade = () => {
           </DialogContent>
           <DialogActions>
             <Button variant='contained' color='error' onClick={() => deleteParticipante(id, 'curso')}>Sim</Button>
-            <Button variant='contained' onClick={() => handleClose('delDiag')} autoFocus>
+            <Button variant='contained' color='success' onClick={() => handleClose('delDiag')} autoFocus>
               Não
             </Button>
           </DialogActions>
