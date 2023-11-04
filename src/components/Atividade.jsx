@@ -2,12 +2,13 @@ import {
   Backdrop, Box, Button, Card, CardActionArea, CardContent, CircularProgress,
   Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material';
-import axios from 'axios';
+import api from '../api/configure-axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AddParticipantes from './AddParticipantes';
 import { Delete, DeleteOutline } from '@mui/icons-material';
 import dayjs from 'dayjs';
+import DeleteDialog from './DeleteDialog';
 
 const Atividade = () => {
   const { id } = useParams()
@@ -28,11 +29,7 @@ const Atividade = () => {
   const getAtividade = async () => {
     setLoading(true)
     try {
-      const res = await axios.get(
-        process.env.NODE_ENV === "development"
-          ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos/${id}`
-          : `https://api-curso-project.vercel.app/api/cursos/${id}`
-      );
+      const res = await api.get(`/cursos/${id}`);
       setAtividade(res.data)
       setLoading(false)
     } catch (e) {
@@ -44,11 +41,7 @@ const Atividade = () => {
     setLoading(true)
 
     try {
-      const res = await axios.delete(
-        process.env.NODE_ENV === "development"
-          ? `${import.meta.env.VITE_MYLOCALHOST}:3000/api/cursos/${id}`
-          : `https://api-curso-project.vercel.app/api/cursos/${id}`
-        , { data: { tipo } });
+      const res = await api.delete(`/cursos/${id}`, { data: { tipo } });
       console.log(res);
       setLoading(false)
       if (tipo === 'curso') {
@@ -62,6 +55,7 @@ const Atividade = () => {
       return null
     }
   }
+  const deleteCurso = () => { deleteParticipante(id, 'curso') }
 
   useEffect(() => {
     getAtividade()
@@ -96,7 +90,7 @@ const Atividade = () => {
           <TableHead>
             <TableRow>
               <TableCell>Nome</TableCell>
-              <TableCell align="right">Condição</TableCell>
+              <TableCell align="center">Condição</TableCell>
 
             </TableRow>
           </TableHead>
@@ -109,8 +103,9 @@ const Atividade = () => {
                 <TableCell component="th" scope="row">
                   {row.user.name}
                 </TableCell>
-                <TableCell align="right">{row.situacao}</TableCell>
-                <TableCell sx={{ border: 'none' }} >
+                <TableCell component={'th'} align="center">{row.situacao}
+                </TableCell>
+                <TableCell align='center'  >
                   <Button variant='text' onClick={() => deleteParticipante(row.id, 'participante')}>
                     <DeleteOutline />
                   </Button>
@@ -120,7 +115,7 @@ const Atividade = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer >
     );
   }
 
@@ -157,7 +152,7 @@ const Atividade = () => {
             Participantes:{atividade.participantes.length}
           </Typography>
           <BasicTable />
-          <Box>
+          <Box sx={{ margin: '10px' }} >
             <Button variant='contained' onClick={() => handleOpen('editDiag')}>Editar Atividade</Button>
           </Box>
         </CardContent>
@@ -176,13 +171,12 @@ const Atividade = () => {
           </DialogContent>
         </Dialog>
 
-        <Dialog
+        <DeleteDialog
           open={dialog.delDiag}
-          onClose={() => handleOpen('delDiag')}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
+          delFunc={deleteCurso}
+          handleClose={() => handleClose('delDiag')}
+        />
+        {/* <DialogTitle id="alert-dialog-title">
             {"Você deseja realmente excluir essa atividade?"}
           </DialogTitle>
           <DialogContent>
@@ -196,7 +190,7 @@ const Atividade = () => {
               Não
             </Button>
           </DialogActions>
-        </Dialog>
+        </Dialog> */}
       </Card>
     </Box>
   )
