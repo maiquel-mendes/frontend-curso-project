@@ -34,7 +34,7 @@ const Users = () => {
     function BasicTable() {
         return (
             <TableContainer component={Box}>
-                <Table sx={{ minWidth: { xs: 250, md: 600 } }} size='medium' aria-label="simple table">
+                <Table size='small' aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell></TableCell>
@@ -74,7 +74,7 @@ const Users = () => {
         <Box mt={6} display={"flex"} alignContent='center' justifyContent={'center'}>
 
 
-            <Card elevation={4} sx={{ maxWidth: 800 }}>
+            <Card elevation={4} >
                 <CardContent>
                     <Typography variant="h5" color="text.secondary">
                         Relatorio de participação

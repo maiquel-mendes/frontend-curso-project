@@ -19,6 +19,7 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 
 import { useNavigate } from "react-router-dom";
 import { ColorModeContext } from "../App";
+import StoreContext from "../context/StoreContext";
 
 
 
@@ -79,6 +80,7 @@ export default function Header({
   const navigate = useNavigate();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext)
+  const { setToken } = React.useContext(StoreContext);
 
   // const handleDrawer = () => {
   //   return (
@@ -103,6 +105,14 @@ export default function Header({
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleLogOut = () => {
+    setToken(null)
+    localStorage.removeItem('token')
+    navigate('/login')
+
+
+  }
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -121,7 +131,7 @@ export default function Header({
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogOut}>Logout</MenuItem>
     </Menu>
   );
 
