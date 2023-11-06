@@ -70,6 +70,7 @@ export default function Header({
   handleDrawerOpen,
   open,
   setOpen,
+  logout
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -80,7 +81,6 @@ export default function Header({
   const navigate = useNavigate();
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext)
-  const { setToken } = React.useContext(StoreContext);
 
   // const handleDrawer = () => {
   //   return (
@@ -105,13 +105,7 @@ export default function Header({
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleLogOut = () => {
-    setToken(null)
-    localStorage.removeItem('token')
-    navigate('/login')
 
-
-  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -130,8 +124,8 @@ export default function Header({
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+      <MenuItem onClick={logout}>Sair</MenuItem>
     </Menu>
   );
 

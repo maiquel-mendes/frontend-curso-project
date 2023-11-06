@@ -16,25 +16,39 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Header from "./Header";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AppBar, Drawer } from "@mui/material";
+import useStorage from "../utils/useStorage";
+import storage from "../utils/storage";
+import StoreContext from "../context/StoreContext";
 
 const drawerWidth = 240;
 
-export default function Home() {
+export default function Home({ token }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const { setToken } = React.useContext(StoreContext);
+
+
+
 
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
+    console.log(token);
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleLogOut = () => {
+    setToken(null)
+    localStorage.removeItem('token')
+    navigate('/login')
+  }
 
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -48,13 +62,14 @@ export default function Home() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar open={open}>
+      <AppBar open={open} >
         <Header
           handleDrawerClose={handleDrawerClose}
           handleDrawerOpen={handleDrawerOpen}
           open={open}
           setOpen={setOpen}
           drawerWidth={drawerWidth}
+          logout={handleLogOut}
         />
       </AppBar>
       <Drawer anchor={drawerAnchor} onClick={handleDrawerClose} open={open}>
@@ -91,6 +106,30 @@ export default function Home() {
               </ListItemButton>
             </ListItem>
           ))}
+          <ListItem key={'15'} disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+              onClick={handleLogOut}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={'Sair'}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
 
