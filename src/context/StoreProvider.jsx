@@ -1,16 +1,13 @@
-import React from "react";
-import StoreContext from "./StoreContext";
-import useStorage from "../utils/useStorage";
+import StoreContext from './StoreContext';
+import useStorage from '../utils/useStorage';
 
-
-StoreContext
 const StoreProvider = ({ children }) => {
-    const [token, setToken] = useStorage('token');
-    return (
-        <StoreContext.Provider value={{ token, setToken }}>
-            {children}
-        </StoreContext.Provider>
-    );
+  const [token, setToken] = useStorage('token');
+  return (
+    <StoreContext.Provider value={{ token, setToken }}>
+      {children}
+    </StoreContext.Provider>
+  );
 };
 
-export default StoreProvider
+export default StoreProvider;

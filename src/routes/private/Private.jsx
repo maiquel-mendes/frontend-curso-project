@@ -1,13 +1,11 @@
-import React, { useContext } from 'react';
-import { Route, redirect, Outlet, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
 import StoreContext from './../../context/StoreContext';
 
 const PrivateRouter = () => {
-    const { token } = useContext(StoreContext);
+  const { token } = React.useContext(StoreContext);
 
-    return token ? <Outlet /> : <Navigate to="/login" />;
-
-
-}
+  return token ? <Outlet /> : <Navigate to='/login' />;
+};
 
 export default PrivateRouter;

@@ -1,172 +1,208 @@
 import {
-  Backdrop, Box, Button, Card, CardActionArea, CardContent, CircularProgress,
-  Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
+  Backdrop,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CircularProgress,
+  Dialog,
+  DialogContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from '@mui/material';
 import api from '../api/configure-axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import AddParticipantes from './AddParticipantes';
 import { Delete, DeleteOutline } from '@mui/icons-material';
 import dayjs from 'dayjs';
 import DeleteDialog from './DeleteDialog';
 
 const Atividade = () => {
-  const { id } = useParams()
-  const [atividade, setAtividade] = useState({})
+  const { id } = useParams();
+  const [atividade, setAtividade] = useState({});
   const [loading, setLoading] = useState(true);
-  const [dialog, setDialog] = React.useState({ editDiag: false, delDiag: false });
-  const handleOpen = (item) => setDialog((prevState) => ({
-    ...prevState,
-    [item]: true,
-  }));
-  const handleClose = (item) => setDialog((prevState) => ({
-    ...prevState,
-    [item]: false,
-  }));
+  const [dialog, setDialog] = React.useState({
+    editDiag: false,
+    delDiag: false,
+  });
+  const handleOpen = (item) =>
+    setDialog((prevState) => ({
+      ...prevState,
+      [item]: true,
+    }));
+  const handleClose = (item) =>
+    setDialog((prevState) => ({
+      ...prevState,
+      [item]: false,
+    }));
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const getAtividade = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await api.get(`/cursos/${id}`);
-      setAtividade(res.data)
-      setLoading(false)
+      setAtividade(res.data);
+      setLoading(false);
     } catch (e) {
       alert(e.message);
-      return null
+      return null;
     }
-  }
+  };
   const deleteParticipante = async (id, tipo) => {
-    setLoading(true)
+    setLoading(true);
 
     try {
       const res = await api.delete(`/cursos/${id}`, { data: { tipo } });
       console.log(res);
-      setLoading(false)
+      setLoading(false);
       if (tipo === 'curso') {
-        navigate("../..", { relative: "path" })
+        navigate('../..', { relative: 'path' });
       } else {
-        getAtividade()
+        getAtividade();
       }
-
     } catch (e) {
       alert(e.message);
-      return null
+      return null;
     }
-  }
-  const deleteCurso = () => { deleteParticipante(id, 'curso') }
+  };
+  const deleteCurso = () => {
+    deleteParticipante(id, 'curso');
+  };
 
   useEffect(() => {
-    getAtividade()
-  }, [])
+    getAtividade();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) {
-    return (<Backdrop
-      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={loading}
-    // onClick={() => setLoading(false)}
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>)
+    return (
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+        // onClick={() => setLoading(false)}
+      >
+        <CircularProgress color='inherit' />
+      </Backdrop>
+    );
   }
-
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
 
   function BasicTable() {
     return (
       <TableContainer component={Box}>
-        <Table sx={{ minWidth: { xs: 250, md: 600 } }} size='medium' aria-label="simple table">
+        <Table
+          sx={{ minWidth: { xs: 250, md: 600 } }}
+          size='medium'
+          aria-label='simple table'
+        >
           <TableHead>
             <TableRow>
               <TableCell>Nome</TableCell>
-              <TableCell align="center">Condição</TableCell>
-
+              <TableCell align='center'>Condição</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody >
-            {atividade.participantes.map((row, index) => (
+          <TableBody>
+            {atividade.participantes.map((row) => (
               <TableRow
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 key={row.user.name}
               >
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                   {row.user.name}
                 </TableCell>
-                <TableCell component={'th'} align="center">{row.situacao}
+                <TableCell component={'th'} align='center'>
+                  {row.situacao}
                 </TableCell>
-                <TableCell align='center'  >
-                  <Button variant='text' onClick={() => deleteParticipante(row.id, 'participante')}>
+                <TableCell align='center'>
+                  <Button
+                    variant='text'
+                    onClick={() => deleteParticipante(row.id, 'participante')}
+                  >
                     <DeleteOutline />
                   </Button>
                 </TableCell>
-
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer >
+      </TableContainer>
     );
   }
 
   return (
-    <Box mt={6} display={"flex"} alignContent='center' justifyContent={'center'}>
-
-
-      <Card elevation={4} >
+    <Box
+      mt={6}
+      display={'flex'}
+      alignContent='center'
+      justifyContent={'center'}
+    >
+      <Card elevation={4}>
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             Nome da atividade
           </Typography>
-          <Typography display={'flex'} justifyContent={'space-between'} alignItems={'center'} gutterBottom variant="h5" component="div">
+          <Typography
+            display={'flex'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            gutterBottom
+            variant='h5'
+            component='div'
+          >
             {atividade.title}
-            <Button variant='contained' color='error' onClick={() => handleOpen('delDiag')}>
+            <Button
+              variant='contained'
+              color='error'
+              onClick={() => handleOpen('delDiag')}
+            >
               <Delete />
             </Button>
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             Descrição da atividade
           </Typography>
-          <Typography mb={4} variant="h6" color="text.secondary">
+          <Typography mb={4} variant='h6' color='text.secondary'>
             {atividade.body}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             Datas da atividade
           </Typography>
-          <Typography mb={4} variant="h6" color="text.secondary">
+          <Typography mb={4} variant='h6' color='text.secondary'>
             Inicio: {dayjs(atividade.dataInicio).format('DD/MM/YYYY')}
             <br />
             Fim: {dayjs(atividade.dataFim).format('DD/MM/YYYY')}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant='body2' color='text.secondary'>
             Participantes:{atividade.participantes.length}
           </Typography>
           <BasicTable />
-          <Box sx={{ margin: '10px' }} >
-            <Button variant='contained' onClick={() => handleOpen('editDiag')}>Editar Atividade</Button>
+          <Box sx={{ margin: '10px' }}>
+            <Button variant='contained' onClick={() => handleOpen('editDiag')}>
+              Editar Atividade
+            </Button>
           </Box>
         </CardContent>
         <Dialog
           fullWidth
           open={dialog.editDiag}
           onClose={() => handleClose('editDiag')}
-        // aria-labelledby="modal-modal-title"
-        // aria-describedby="modal-modal-description"
+          // aria-labelledby="modal-modal-title"
+          // aria-describedby="modal-modal-description"
         >
           <DialogContent>
-
-            <Box >
-              <AddParticipantes id={id} atividade={atividade} handleClose={handleClose} getAtividade={getAtividade} />
+            <Box>
+              <AddParticipantes
+                id={id}
+                atividade={atividade}
+                handleClose={handleClose}
+                getAtividade={getAtividade}
+              />
             </Box>
           </DialogContent>
         </Dialog>
@@ -193,7 +229,7 @@ const Atividade = () => {
         </Dialog> */}
       </Card>
     </Box>
-  )
-}
+  );
+};
 
-export default Atividade
+export default Atividade;
