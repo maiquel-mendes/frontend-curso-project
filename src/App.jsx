@@ -15,7 +15,6 @@ import StoreProvider from './context/StoreProvider';
 import PrivateRouter from './routes/private/Private';
 
 export const ColorModeContext = React.createContext();
-
 export default function App() {
   const [mode, setMode] = React.useState('dark');
   const colorMode = React.useMemo(
