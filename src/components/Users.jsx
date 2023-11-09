@@ -1,21 +1,17 @@
 import {
-  Box,
-  Button,
+  Avatar,
   Card,
   CardContent,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Container,
+  IconButton,
   Typography,
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import api from '../api/configure-axios';
 import React, { useContext, useState } from 'react';
-import { Delete } from '@mui/icons-material';
 import { UserContext } from '../context/UserContext';
 import DeleteDialog from './DeleteDialog';
+import { Stack } from '@mui/system';
 
 const Users = () => {
   const [userId, setUserId] = useState(null);
@@ -36,71 +32,76 @@ const Users = () => {
       return null;
     }
   };
-
-  function BasicTable() {
+  function UsersCard() {
     return (
-      <TableContainer component={Box}>
-        <Table size='small' aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell align='center'>Treinamentos</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {operadores.map((row, index) => (
-              <TableRow
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                key={row.id}
-              >
-                <TableCell component='th' scope='row'>
-                  {index + 1}
-                </TableCell>
-                <TableCell component='th' scope='row'>
+      <>
+        {operadores.map((row) => (
+          <Card
+            key={row.id}
+            sx={{
+              display: 'flex',
+              marginBottom: '0.1rem',
+            }}
+          >
+            <Stack
+              width={'100%'}
+              direction='row'
+              spacing={1}
+              justifyContent={'space-between'}
+              alignItems={'center'}
+              paddingLeft={'0.5rem'}
+            >
+              <Avatar alt={row.name}></Avatar>
+              <CardContent sx={{ width: '100%' }}>
+                <Typography
+                  display={'flex'}
+                  margin={'0'}
+                  component='div'
+                  variant='h6'
+                  alignContent={'flex-start'}
+                >
                   {row.name}
-                </TableCell>
-                <TableCell align='center'>{row.cursos.length}</TableCell>
-                <TableCell sx={{ border: 'none' }}>
-                  <Button
-                    onClick={() => {
-                      setUserId(row.id);
-                      handleOpen();
-                    }}
-                  >
-                    <Delete />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                </Typography>
+                <Typography
+                  variant='subtitle1'
+                  color='text.secondary'
+                  component='div'
+                >
+                  Participações: {row.cursos.length}
+                </Typography>
+              </CardContent>
+
+              <IconButton
+                onClick={() => {
+                  setUserId(row.id);
+                  handleOpen();
+                }}
+              >
+                <DeleteIcon sx={{ height: 30, width: 30 }} />
+              </IconButton>
+            </Stack>
+          </Card>
+        ))}
+      </>
     );
   }
 
   return (
-    <Box
-      mt={6}
-      display={'flex'}
-      alignContent='center'
-      justifyContent={'center'}
-    >
-      <Card elevation={4}>
-        <CardContent>
-          <Typography variant='h5' color='text.secondary'>
-            Relatorio de participação
-          </Typography>
+    <Container sx={{ maxWidth: { xs: '100%', md: '50%' } }} disableGutters>
+      <Typography variant='h6' color='text.primary'>
+        Relatório participações em treinamento
+      </Typography>
+      <Typography variant='h6' color='text.secondary'>
+        Total de pessoas: {operadores.length}
+      </Typography>
 
-          <BasicTable />
-        </CardContent>
-        <DeleteDialog
-          open={open}
-          handleClose={handleClose}
-          delFunc={() => deleteUser(userId)}
-        />
-      </Card>
-    </Box>
+      <UsersCard />
+      <DeleteDialog
+        open={open}
+        handleClose={handleClose}
+        delFunc={() => deleteUser(userId)}
+      />
+    </Container>
   );
 };
 

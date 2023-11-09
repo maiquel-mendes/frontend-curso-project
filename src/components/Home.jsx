@@ -50,7 +50,11 @@ export default function Home({ token }) {
   }));
   const drawerAnchor = window.innerWidth <= 900 ? 'bottom' : 'left';
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box
+      sx={{
+        display: 'flex',
+      }}
+    >
       <CssBaseline />
       <AppBar open={open}>
         <Header
@@ -136,7 +140,7 @@ export default function Home({ token }) {
         </List>
       </Drawer>
 
-      <Box component='main' sx={{ flexGrow: 1, p: 3, m: 3 }} open={open}>
+      <Box component='main' sx={{ flexGrow: 1, p: 0, m: 0 }} open={open}>
         <DrawerHeader />
 
         <Outlet />

@@ -154,9 +154,9 @@ export default function Header({ handleDrawerOpen, open, logout }) {
           noWrap
           component='div'
           onClick={() => navigate('/')}
-          sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
+          sx={{ display: { xs: 'block', sm: 'block' }, cursor: 'pointer' }}
         >
-          SISTEMA
+          S.I - DOE
         </Typography>
         {/* <Search>
           <SearchIconWrapper>

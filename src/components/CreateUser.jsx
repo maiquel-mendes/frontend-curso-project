@@ -63,6 +63,7 @@ const CreateUser = () => {
           gap={2}
           marginTop={1}
           maxWidth={900}
+          m={4}
         >
           <TextField
             name='name'

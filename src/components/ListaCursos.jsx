@@ -71,7 +71,7 @@ const ListaCursos = () => {
   }
 
   return (
-    <Box>
+    <Box m={2}>
       <Box m={2} display={'flex'} justifyContent='center'>
         <Button
           variant='contained'

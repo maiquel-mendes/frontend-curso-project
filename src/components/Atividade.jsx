@@ -136,12 +136,7 @@ const Atividade = () => {
   }
 
   return (
-    <Box
-      mt={6}
-      display={'flex'}
-      alignContent='center'
-      justifyContent={'center'}
-    >
+    <Box display={'flex'} alignContent='center' justifyContent={'center'}>
       <Card elevation={4}>
         <CardContent>
           <Typography variant='body2' color='text.secondary'>
@@ -156,13 +151,6 @@ const Atividade = () => {
             component='div'
           >
             {atividade.title}
-            <Button
-              variant='contained'
-              color='error'
-              onClick={() => handleOpen('delDiag')}
-            >
-              <Delete />
-            </Button>
           </Typography>
           <Typography variant='body2' color='text.secondary'>
             Descrição da atividade
@@ -182,9 +170,22 @@ const Atividade = () => {
             Participantes:{atividade.participantes.length}
           </Typography>
           <BasicTable />
-          <Box sx={{ margin: '10px' }}>
+          <Box
+            sx={{
+              margin: '5px',
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
             <Button variant='contained' onClick={() => handleOpen('editDiag')}>
               Editar Atividade
+            </Button>
+            <Button
+              variant='contained'
+              color='error'
+              onClick={() => handleOpen('delDiag')}
+            >
+              <Delete />
             </Button>
           </Box>
         </CardContent>
