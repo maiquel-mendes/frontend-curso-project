@@ -13,6 +13,7 @@ import { UserProvider } from './context/UserContext';
 import { LoginPage } from './components/LoginPage';
 import StoreProvider from './context/StoreProvider';
 import PrivateRouter from './routes/private/Private';
+import ListaUser from './components/ListaUser';
 
 export const ColorModeContext = React.createContext();
 export default function App() {
@@ -54,7 +55,8 @@ export default function App() {
                   <Route path='cria-curso' element={<GravaCursos />} />
                   <Route index element={<Index />} />
                   <Route path='create-user' element={<CreateUser />} />
-                  <Route path='list-user' element={<Users />} />
+                  <Route path='list-users' element={<Users />} />
+                  <Route path='/list-user/:id' element={<ListaUser />} />
                 </Route>
               </Route>
             </Routes>

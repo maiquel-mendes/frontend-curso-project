@@ -8,10 +8,10 @@ export const UserProvider = ({ children }) => {
 
   async function getUsers() {
     try {
-      const res = await api.get('/user');
+      const res = await api.get('/users');
       // const resFiltered = res.data.filter((item) => participantesCadastrados.includes(item.name) ? false : true)
       setOperadores(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (e) {
       alert(e.message);
     }

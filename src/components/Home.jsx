@@ -87,7 +87,7 @@ export default function Home({ token }) {
             },
             {
               name: 'Listar usuarios',
-              link: 'list-user',
+              link: 'list-users',
               icon: <FolderSharedIcon />,
             },
           ].map((item) => (

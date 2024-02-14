@@ -7,11 +7,13 @@ import {
   Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
 import api from '../api/configure-axios';
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../context/UserContext';
 import DeleteDialog from './DeleteDialog';
 import { Stack } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 const Users = () => {
   const [userId, setUserId] = useState(null);
@@ -23,7 +25,7 @@ const Users = () => {
 
   const deleteUser = async (id) => {
     try {
-      const res = await api.delete(`/user/${id}`);
+      const res = await api.delete(`/users/${id}`);
 
       console.log(res);
       handleClose();
@@ -70,6 +72,14 @@ const Users = () => {
                   Participações: {row.cursos.length}
                 </Typography>
               </CardContent>
+              <Link
+                to={`/list-user/${row.id}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton size='small'>
+                  <InfoIcon sx={{ height: 30, width: 30 }} />
+                </IconButton>
+              </Link>
 
               <IconButton
                 onClick={() => {

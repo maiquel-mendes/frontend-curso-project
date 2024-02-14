@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 
 const ListaCursos = () => {
   const [result, setResult] = React.useState([]);
+  const [year, setYear] = React.useState(0);
   const [isLoading, setisLoading] = React.useState(false);
 
   async function getAtividades() {
@@ -36,6 +37,7 @@ const ListaCursos = () => {
 
   React.useEffect(() => {
     getAtividades();
+    // console.log(result);
   }, []);
 
   function BasicCard({ row }) {
@@ -70,16 +72,34 @@ const ListaCursos = () => {
     );
   }
 
+  function YearButton() {
+    let arr = result.map((item) => item.ano);
+    const set = new Set(arr);
+    const nodup = Array.from(set);
+    return (
+      <>
+        {nodup.map((item, index) => (
+          <Box m={2} key={index} component='div'>
+            <Button
+              variant='contained'
+              startIcon={<ListAltIcon />}
+              onClick={() => setYear(item)}
+            >
+              {item}
+            </Button>
+          </Box>
+        ))}
+      </>
+    );
+  }
+
   return (
     <Box m={2}>
       <Box m={2} display={'flex'} justifyContent='center'>
-        <Button
-          variant='contained'
-          startIcon={<ListAltIcon />}
-          onClick={getAtividades}
-        >
-          Listar Atividades
-        </Button>
+        <Typography variant='h4' component='div' display={'flex'}>
+          Lista de Atividades
+        </Typography>
+
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={isLoading}
@@ -91,18 +111,22 @@ const ListaCursos = () => {
 
       <Box>
         <Typography variant='h5' component='div' display={'flex'}>
-          Total de atividades: {result.length}
+          Total de atividades:{' '}
+          {result.filter((item) => item.ano === year).length}
         </Typography>
+        <YearButton />
         <Grid
           container
           spacing={{ xs: 2, md: 2 }}
           columns={{ xs: 2, sm: 8, md: 12 }}
         >
-          {result.map((row) => (
-            <Grid item xs={4} sm={4} md={4} key={row.id}>
-              <BasicCard row={row} />
-            </Grid>
-          ))}
+          {result
+            .filter((item) => item.ano === year)
+            .map((row) => (
+              <Grid item xs={4} sm={4} md={4} key={row.id}>
+                <BasicCard row={row} />
+              </Grid>
+            ))}
         </Grid>
       </Box>
     </Box>
