@@ -38,7 +38,7 @@ const CreateUser = () => {
     }
 
     try {
-      const res = await api.post('/user', {
+      const res = await api.post('/users', {
         usuarios: [inputs],
       });
       console.log(res.data);
